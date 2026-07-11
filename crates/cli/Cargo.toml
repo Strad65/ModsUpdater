@@ -1,15 +1,15 @@
 [package]
-name = "modrinth-updater-cli"
+name = "modsupdater-cli"
 version = "0.1.0"
 edition = "2021"
 description = "CLI frontend for Modrinth mod updater"
 
 [[bin]]
-name = "modrinth-updater"
+name = "modsupdater-v0_1_0"
 path = "src/main.rs"
 
 [dependencies]
-modrinth-updater-core = { path = "../core" }
+modsupdater-core = { path = "../core" }
 tokio = { workspace = true }
 anyhow = { workspace = true }
 tracing = { workspace = true }

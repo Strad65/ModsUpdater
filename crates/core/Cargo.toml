@@ -1,5 +1,5 @@
 [package]
-name = "modrinth-updater-core"
+name = "modsupdater-core"
 version = "0.1.0"
 edition = "2021"
 description = "Core library for Modrinth mod updater"

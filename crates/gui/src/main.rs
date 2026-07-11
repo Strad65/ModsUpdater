@@ -1,5 +1,7 @@
+#![cfg_attr(target_os = "windows", windows_subsystem = "windows")]
+
 use eframe::egui;
-use modrinth_updater_core::{
+use modsupdater_core::{
     analyze_mods, install_update, scan_directory, AppConfig, ModInfo, ModrinthClient, UpdateReport,
 };
 use std::path::PathBuf;
@@ -117,7 +119,7 @@ impl eframe::App for ModUpdaterApp {
 
         // ── Top panel ───────────────────────────────────────────────
         egui::TopBottomPanel::top("top").show(ctx, |ui| {
-            ui.heading("Modrinth Mod Updater");
+            ui.heading("ModsUpdater");
             ui.separator();
             ui.horizontal(|ui| {
                 ui.label("Directory:");
@@ -341,6 +343,47 @@ fn start_worker(event_tx: UnboundedSender<AppEvent>) -> UnboundedSender<Command>
     cmd_tx
 }
 
+// ── App icon ────────────────────────────────────────────────────────
+
+fn app_icon() -> egui::IconData {
+    let w = 32u32;
+    let h = 32u32;
+    let mut rgba = vec![0u8; (w * h * 4) as usize];
+    let cx = w as i32 / 2;
+    let cy = h as i32 / 2;
+    for y in 0..h {
+        for x in 0..w {
+            let idx = ((y * w + x) * 4) as usize;
+            let dx = x as i32 - cx;
+            let dy = y as i32 - cy;
+            // Rounded square background
+            let dist = (dx * dx + dy * dy) as f32;
+            if dist < (cx * cx) as f32 {
+                // Dark bg
+                rgba[idx] = 26;
+                rgba[idx + 1] = 26;
+                rgba[idx + 2] = 46;
+            } else {
+                rgba[idx + 3] = 0;
+            }
+            // Green upward arrow (triangle)
+            let top = -8;
+            let bottom = 8;
+            let mid = dx;
+            let in_tri = dy < bottom && dy > top
+                && dy > mid.abs() * 2 - 8
+                && dy < (bottom - mid.abs() * 2 + 2);
+            if in_tri {
+                rgba[idx] = 74;
+                rgba[idx + 1] = 222;
+                rgba[idx + 2] = 128;
+            }
+            rgba[idx + 3] = 255;
+        }
+    }
+    egui::IconData { rgba, width: w, height: h }
+}
+
 // ── main ────────────────────────────────────────────────────────────
 
 fn main() -> eframe::Result {
@@ -350,9 +393,15 @@ fn main() -> eframe::Result {
     let (event_tx, event_rx) = unbounded_channel();
     let cmd_tx = start_worker(event_tx);
     let _ = cmd_tx.send(Command::FetchTags);
+    let icon = app_icon();
     eframe::run_native(
-        "Modrinth Mod Updater",
-        eframe::NativeOptions { viewport: egui::ViewportBuilder::default().with_inner_size([920.0, 620.0]), ..Default::default() },
+        "ModsUpdater",
+        eframe::NativeOptions {
+            viewport: egui::ViewportBuilder::default()
+                .with_inner_size([920.0, 620.0])
+                .with_icon(icon),
+            ..Default::default()
+        },
         Box::new(|_cc| Ok(Box::new(ModUpdaterApp::new(cmd_tx, event_rx)))),
     )
 }

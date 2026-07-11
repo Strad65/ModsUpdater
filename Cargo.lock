@@ -2195,7 +2195,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "modrinth-updater-cli"
+name = "modsupdater-cli"
 version = "0.1.0"
 dependencies = [
  "anyhow",
@@ -2203,7 +2203,7 @@ dependencies = [
  "clap",
  "directories",
  "indicatif",
- "modrinth-updater-core",
+ "modsupdater-core",
  "serde_json",
  "tokio",
  "tracing",
@@ -2211,7 +2211,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "modrinth-updater-core"
+name = "modsupdater-core"
 version = "0.1.0"
 dependencies = [
  "bytes",
@@ -2232,13 +2232,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "modrinth-updater-gui"
+name = "modsupdater-gui"
 version = "0.1.0"
 dependencies = [
  "chrono",
  "eframe",
  "egui",
- "modrinth-updater-core",
+ "modsupdater-core",
  "rfd",
  "tokio",
  "tracing",

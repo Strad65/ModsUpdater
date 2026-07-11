@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 use indicatif::{ProgressBar, ProgressStyle};
-use modrinth_updater_core::{
+use modsupdater_core::{
     load_latest_report, parse_mod_names_from_file, run_updates, save_report, scan_directory,
     AppConfig, LocalMod, ModInfo, ModrinthClient,
 };
@@ -63,7 +63,7 @@ fn default_report_path() -> PathBuf {
 
 #[derive(Parser)]
 #[command(
-    name = "modrinth-updater",
+    name = "modsupdater-v0_1_0",
     version = "0.1.0",
     about = "Update Minecraft mods via the Modrinth API",
     long_about = "Update Minecraft mods via the Modrinth API\n通过 Modrinth API 更新 Minecraft mods\n\nA cross-platform tool to check and apply updates for Minecraft mods.\n跨平台 Minecraft mod 更新工具，通过 Modrinth API 检查并应用更新。",
@@ -205,7 +205,7 @@ async fn main() -> Result<()> {
     tracing_subscriber::fmt()
         .with_env_filter(
             tracing_subscriber::EnvFilter::try_from_default_env()
-                .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("modrinth_updater_core=info,modrinth_updater_cli=info")),
+                .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("modsupdater_core=info,modsupdater_cli=info")),
         )
         .init();
 
@@ -258,7 +258,7 @@ async fn cmd_check(
         )
     );
 
-    let mod_infos = modrinth_updater_core::analyze_mods(
+    let mod_infos = modsupdater_core::analyze_mods(
         &client, &local_mods, &[loader.clone()], &[game_version.clone()],
     ).await?;
 
@@ -330,7 +330,7 @@ async fn cmd_update(
         return Ok(());
     }
 
-    let mod_infos = modrinth_updater_core::analyze_mods(
+    let mod_infos = modsupdater_core::analyze_mods(
         &client, &local_mods, &[loader.clone()], &[game_version.clone()],
     ).await?;
 

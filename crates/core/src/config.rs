@@ -3,7 +3,7 @@ use std::path::PathBuf;
 
 use crate::error::{CoreError, CoreResult};
 
-const APP_NAME: &str = "modrinth-updater";
+const APP_NAME: &str = "modsupdater";
 const CONFIG_FILE: &str = "config.toml";
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -88,7 +88,7 @@ impl AppConfig {
     pub fn user_agent(&self) -> &str {
         self.user_agent_cache
             .as_deref()
-            .unwrap_or("unknown/modrinth-updater/0.1.0")
+            .unwrap_or("unknown/modsupdater/0.1.0")
     }
 
     /// Compute the cached user agent string.
@@ -96,7 +96,7 @@ impl AppConfig {
         self.user_agent_cache = Some(
             self.user_agent_identifier
                 .clone()
-                .unwrap_or_else(|| "unknown/modrinth-updater/0.1.0".to_string()),
+                .unwrap_or_else(|| "unknown/modsupdater/0.1.0".to_string()),
         );
     }
 
