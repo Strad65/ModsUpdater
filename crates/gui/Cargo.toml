@@ -1,0 +1,15 @@
+[package]
+name = "modrinth-updater-gui"
+version = "0.1.0"
+edition = "2021"
+description = "GUI frontend for Modrinth mod updater (egui/eframe)"
+
+[dependencies]
+modrinth-updater-core = { path = "../core" }
+tokio = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+eframe = { workspace = true }
+egui = { workspace = true }
+rfd = { workspace = true }
+chrono = { workspace = true }
